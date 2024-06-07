@@ -8,4 +8,4 @@ For demo purposes, the database is empty.
 
 ## For a deep dive
 
-Checkout our article on Medium here : https://medium.com/@admin_86318/haproxy-part-i-secure-an-api-192604e8624c
+Checkout our article on Medium here : https://medium.com/@nexsol-tech/haproxy-part-i-secure-an-api-192604e8624c
