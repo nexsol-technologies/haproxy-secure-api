@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  demo-secure-db:
+    restart: always
+    image: postgres:16.3-alpine3.20
+    environment:
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=demo
+      - POSTGRES_DB=demo
+
+  demo-postgrest-api:
+    restart: always
+    image: postgrest/postgrest:latest
+    depends_on: 
+      - demo-secure-db
+    environment:
+      - PGRST_DB_URI=postgres://demo:demo@demo-secure-db:5432/demo
+      - PGRST_DB_SCHEMA=public
+      - PGRST_DB_ANON_ROLE=demo
+      - PGRST_DB_SCHEMAS=public
+    ports:
+      - "3000:3000"
+
+  haproxy-secure-api:
+    restart: always
+    image: haproxy:2.9.7-alpine3.20
+    depends_on: 
+      - demo-postgrest-api
+    ports:
+      - 8080:8080
+    volumes: 
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
